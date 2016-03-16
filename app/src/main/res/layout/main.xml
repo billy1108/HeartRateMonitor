@@ -1,62 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/layout"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/top"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal"
-        android:weightSum="1.0"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" >
+        android:weightSum="1"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/text"
+            android:id="@+id/tvResult"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="---"
+            android:text="@string/default.text"
             android:layout_weight="0.5"
             android:textSize="90sp" >
         </TextView>
 
-        <SurfaceView
-            android:id="@+id/preview"
-            android:layout_width="200sp"
-            android:layout_height="200sp"
-            android:layout_margin="5sp"
-            android:layout_weight="0.5"
-            >
-        </SurfaceView>
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/top"
-        android:orientation="horizontal" >
-
         <com.caballero.billy.heartratemonitor.ui.widgets.HeartbeatView
-            android:id="@+id/image"
+            android:id="@+id/hbvImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true" >
+            android:layout_weight="0.5" >
         </com.caballero.billy.heartratemonitor.ui.widgets.HeartbeatView>
-    </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btnStartMonitor"
+        android:text="@string/button.start"
+        android:layout_width="match_parent"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"
+        android:layout_height="wrap_content" />
+
+    <SurfaceView
+        android:id="@+id/sfPreview"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        >
+    </SurfaceView>
 
     <TextView
-        android:id="@+id/txtvwStopWatch"
-        android:layout_width="wrap_content"
+        android:id="@+id/tvStopWatch"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="---"
-        android:layout_centerHorizontal="true"
+        android:text="@string/default.text"
+        android:textAlignment="center"
         android:padding="5sp"
-        android:layout_alignParentBottom="true"
         android:textSize="20sp" >
     </TextView>
 
-</RelativeLayout>
+</LinearLayout>

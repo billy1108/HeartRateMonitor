@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">HeartRateMonitor</string>
+
+    <string name="button.start">Start</string>
+    <string name="default.text">---</string>
+
 </resources>

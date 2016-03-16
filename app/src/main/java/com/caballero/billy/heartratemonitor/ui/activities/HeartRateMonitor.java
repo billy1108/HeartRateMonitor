@@ -28,26 +28,29 @@ import android.widget.Toast;
 import com.caballero.billy.heartratemonitor.R;
 import com.caballero.billy.heartratemonitor.helper.ImageProcessing;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 /**
  * Created by Billy on 16/03/2016.
  */
 public class HeartRateMonitor extends Activity {
-    private static final String TAG = "HeartRateMonitor";
+    private static final String TAG = HeartRateMonitor.class.getSimpleName();
     private static final AtomicBoolean processing = new AtomicBoolean(false);
 
-    private static SurfaceView preview = null;
     private static SurfaceHolder previewHolder = null;
     private static Camera camera = null;
-    private static View image = null;
-    private static TextView text = null;
     private static String beatsPerMinuteValue="";
     private static WakeLock wakeLock = null;
-    private static TextView mTxtVwStopWatch;
     private static int averageIndex = 0;
     private static final int averageArraySize = 4;
     private static final int[] averageArray = new int[averageArraySize];
-    private static String strSavedDoctorID="";
     private static Context parentReference = null;
+
+    @Bind(R.id.sfPreview) SurfaceView preview;
+    @Bind(R.id.tvStopWatch) TextView mTxtVwStopWatch;
+    @Bind(R.id.hbvImage) View image;
+    @Bind(R.id.tvResult) TextView text;
 
     public static enum TYPE {
         GREEN, RED
@@ -70,18 +73,16 @@ public class HeartRateMonitor extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        ButterKnife.bind(this);
+        initElements();
+    }
+
+    public void initElements(){
         v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
         parentReference=this;
-        strSavedDoctorID= HeartRateMonitor.this.getSharedPreferences("app_prefs", MODE_PRIVATE)
-                .getString("doc_id", "---");
-        preview = (SurfaceView) findViewById(R.id.preview);
         previewHolder = preview.getHolder();
-        mTxtVwStopWatch=(TextView)findViewById(R.id.txtvwStopWatch);
         previewHolder.addCallback(surfaceCallback);
         previewHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-
-        image = findViewById(R.id.image);
-        text = (TextView) findViewById(R.id.text);
 
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         wakeLock = pm.newWakeLock(PowerManager.FULL_WAKE_LOCK, "DoNotDimScreen");
@@ -112,7 +113,7 @@ public class HeartRateMonitor extends Activity {
         camera = null;
     }
 
-    private static PreviewCallback previewCallback = new PreviewCallback() {
+    private PreviewCallback previewCallback = new PreviewCallback() {
 
         @Override
         public void onPreviewFrame(byte[] data, Camera cam) {
@@ -203,11 +204,11 @@ public class HeartRateMonitor extends Activity {
     };
 
 
-    private static void makePhoneVibrate(){
+    private void makePhoneVibrate(){
         v.vibrate(500);
     }
 
-    private static SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
+    private SurfaceHolder.Callback surfaceCallback = new SurfaceHolder.Callback() {
 
         public void surfaceCreated(SurfaceHolder holder) {
             try {
@@ -237,7 +238,7 @@ public class HeartRateMonitor extends Activity {
         }
     };
 
-    private static Camera.Size getSmallestPreviewSize(int width, int height, Camera.Parameters parameters) {
+    private Camera.Size getSmallestPreviewSize(int width, int height, Camera.Parameters parameters) {
         Camera.Size result = null;
 
         for (Camera.Size size : parameters.getSupportedPreviewSizes()) {
@@ -256,7 +257,7 @@ public class HeartRateMonitor extends Activity {
         return result;
     }
 
-    private static void prepareCountDownTimer(){
+    private void prepareCountDownTimer(){
         mTxtVwStopWatch.setText("---");
         new CountDownTimer(10000, 1000) {
 
@@ -270,14 +271,14 @@ public class HeartRateMonitor extends Activity {
         }.start();
     }
 
-    private static void showReadingCompleteDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(parentReference);
-        builder.setTitle("PubNub-HeartRate");
+    private void showReadingCompleteDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Heart Rate Monitor");
         builder.setMessage("Reading taken Succesfully at- "+beatsPerMinuteValue+" beats per minute.")
                 .setCancelable(false)
                 .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        ( (Activity) parentReference).finish();
+                       ///this.finish();
                     }
                 })
                 .setNegativeButton("Take Another", new DialogInterface.OnClickListener() {
