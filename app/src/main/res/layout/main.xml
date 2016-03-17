@@ -30,15 +30,6 @@
 
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/btnStartMonitor"
-        android:text="@string/button.start"
-        android:layout_width="match_parent"
-        android:background="@color/colorAccent"
-        android:textColor="@color/white"
-        android:layout_height="wrap_content" />
-
     <SurfaceView
         android:id="@+id/sfPreview"
         android:layout_width="match_parent"
