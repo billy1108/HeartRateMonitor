@@ -27,7 +27,6 @@
             android:layout_weight="0.5" >
         </com.caballero.billy.heartratemonitor.ui.widgets.HeartbeatView>
 
-
     </LinearLayout>
 
     <SurfaceView
